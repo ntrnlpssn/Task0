@@ -3,14 +3,31 @@
 
 using namespace std;
 
+double getValue()
+{
+    while (true)
+    {
+       int a;
+       cout<<"Enter a size of array: " << "\n";
+       cin >> a;
+       if (cin.fail()== 1 || a==0)
+         {
+             cin.clear();
+             cin.ignore(32767,'\n');
+             cout << "Incorrect input" << endl;
+         }
+       else
+       return a;
+
+   }
+}
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
     double *values,MaxDouble=0;
-    int size;
-    cout<<"Enter a size of array: " << "\n";
-    cin>>size;
+    int size = getValue();
     values = new double[size];
 
     for(int i=0 ; i<size; i++)
