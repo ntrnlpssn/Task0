@@ -1,20 +1,19 @@
 ﻿#include <QCoreApplication>
 #include <iostream>
-#include <ctime>
+#include <random>
 #include <string>
 #include <sstream>
-#include<random>
 
 using namespace std;
 
-bool trySize_tParse(const string& input, size_t& size);
+bool trySize_tParse(const string &input, size_t &size);
 
 size_t getIntegerValue(
-        const string& message = "",
-        const size_t leftBound = numeric_limits<size_t>::lowest(),
-        const size_t rightBound = numeric_limits<size_t>::max());
+    const string& message = "",
+    const size_t leftBound = numeric_limits<size_t>::lowest(),
+    const size_t rightBound = numeric_limits<size_t>::max());
 
-bool tryDoubleParse(const string& input, double& value);
+bool tryDoubleParse(const string &input, double &value);
 
 double getDoubleValue(
     const string& message = "",
@@ -32,8 +31,6 @@ double getMaxValue(const double* array, const size_t size);
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-
     const auto size = getIntegerValue("Input size = ", 0);
     const auto minValue = getDoubleValue("Input min value = ");
     const auto maxValue = getDoubleValue("Input max value = ", minValue);
@@ -65,11 +62,10 @@ size_t getIntegerValue(
         cout << message;
         string tempInput;
         cin >> tempInput;
-        
+
         const auto isFail = cin.fail()
-                    || !trySize_tParse(tempInput, tempSize)
-                    || !(tempSize >= leftBound && tempSize <= rightBound)
-                    || tempSize==0;
+            || !trySize_tParse(tempInput, tempSize)
+            || !(tempSize >= leftBound && tempSize <= rightBound);
         if (isFail)
         {
             clearInput();
@@ -82,15 +78,14 @@ size_t getIntegerValue(
     }
 }
 
-
-bool trySize_tParse(const string& input, size_t& size)
+bool trySize_tParse(const string &input, size_t &size)
 {
     try
     {
         const auto tempDouble = stod(input);
         const size_t tempInteger = stoul(input);
 
-        if (tempDouble - tempInteger < numeric_limits<double>::epsilon())
+        if (fabs(tempDouble - tempInteger) <= numeric_limits<double>::epsilon())
         {
             size = tempInteger;
             return true;
@@ -104,7 +99,7 @@ bool trySize_tParse(const string& input, size_t& size)
     }
 }
 
-bool tryDoubleParse(const string& input, double& value)
+bool tryDoubleParse(const string &input, double &value)
 {
     try
     {
@@ -126,12 +121,12 @@ double getDoubleValue(
     while (true)
     {
         cout << message;
-                string tempInput;
-                cin >> tempInput;
+        string tempInput;
+        cin >> tempInput;
 
-       const auto isFail = cin.fail()
-               || !tryDoubleParse(tempInput, tempValue)
-               || !(leftBound <= tempValue && tempValue <= rightBound);
+        const auto isFail = cin.fail()
+            || !tryDoubleParse(tempInput, tempValue)
+            || !(leftBound <= tempValue && tempValue <= rightBound);
         if (isFail)
         {
             clearInput();
@@ -150,12 +145,12 @@ const double* getGeneratedArray(
     const double rightBound)
 {
     const uniform_real_distribution<double> distribution(leftBound, rightBound);
-        default_random_engine engine;
-        const auto array = new double[size];
-        for (size_t i = 0; i < size; ++i)
-        {
-            array[i] = distribution(engine);
-        }
+    default_random_engine engine;
+    const auto array = new double[size];
+    for (size_t i = 0; i < size; ++i)
+    {
+        array[i] = distribution(engine);
+    }
     return array;
 }
 
@@ -177,7 +172,9 @@ double getMaxValue(const double* array, const size_t size)
     for (size_t i = 1; i < size; ++i)
     {
         if (max < array[i])
+        {
             max = array[i];
+        }
     }
     return max;
 }
