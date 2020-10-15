@@ -32,15 +32,18 @@ double getMaxValue(const double* array, const size_t size);
 int main(int argc, char *argv[])
 {
     const auto size = getIntegerValue("Input size = ", 0);
+
     const auto minValue = getDoubleValue("Input min value = ");
     const auto maxValue = getDoubleValue("Input max value = ", minValue);
 
-    const auto myArray = getGeneratedArray(size, minValue, maxValue);
-    cout << toString(myArray, size) << endl;
+    const auto array = getGeneratedArray(size, minValue, maxValue);
+    cout << "array is: " << toString(array, size) << endl;
 
-    cout << "Max value of array: " << getMaxValue(myArray, size) << endl;
+    const auto result = getMaxValue(array, size);
+    cout << "max value of array is: " << result << endl;
 
-    delete[] myArray;
+    delete[] array;
+
     system("PAUSE");
     return a.exec();
 }
@@ -85,7 +88,7 @@ bool trySize_tParse(const string &input, size_t &size)
         const auto tempDouble = stod(input);
         const size_t tempInteger = stoul(input);
 
-        if (fabs(tempDouble - tempInteger) <= numeric_limits<double>::epsilon())
+        if (std::fabs(tempDouble - tempInteger) <= numeric_limits<double>::epsilon())
         {
             size = tempInteger;
             return true;
@@ -146,6 +149,7 @@ const double* getGeneratedArray(
 {
     const uniform_real_distribution<double> distribution(leftBound, rightBound);
     default_random_engine engine;
+
     const auto array = new double[size];
     for (size_t i = 0; i < size; ++i)
     {
@@ -157,7 +161,7 @@ const double* getGeneratedArray(
 string toString(const double* array, const size_t size)
 {
     stringstream ss;
-    ss << "My array is: { ";
+    ss << "{ ";
     for (size_t i = 0; i < size - 1; ++i)
     {
         ss << array[i] << ", ";
