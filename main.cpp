@@ -31,6 +31,8 @@ double getMaxValue(const double* array, const size_t size);
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication a(argc, argv);
+
     const auto size = getIntegerValue("Input size = ", 0);
 
     const auto minValue = getDoubleValue("Input min value = ");
